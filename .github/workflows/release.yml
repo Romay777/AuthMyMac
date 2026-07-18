@@ -1,0 +1,53 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'Release-*'
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: macos-26
+
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v6
+
+      - name: Validate release tag
+        id: version
+        shell: bash
+        run: |
+          version="${GITHUB_REF_NAME#Release-}"
+          if [[ ! "$version" =~ ^[0-9]+\.[0-9]+(\.[0-9]+)?$ ]]; then
+            echo "Tag must match Release-X.Y or Release-X.Y.Z; got $GITHUB_REF_NAME" >&2
+            exit 1
+          fi
+          echo "value=$version" >> "$GITHUB_OUTPUT"
+
+      - name: Run tests
+        run: swift test
+
+      - name: Build release app
+        env:
+          MARKETING_VERSION: ${{ steps.version.outputs.value }}
+          BUILD_NUMBER: ${{ github.run_number }}
+          OPEN_AFTER_BUILD: '0'
+        run: ./BUILD.sh release
+
+      - name: Package app
+        env:
+          VERSION: ${{ steps.version.outputs.value }}
+        run: ditto -c -k --sequesterRsrc --keepParent "dist/AuthMyMac.app" "AuthMyMac-${VERSION}.zip"
+
+      - name: Create GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VERSION: ${{ steps.version.outputs.value }}
+        run: |
+          gh release create "$GITHUB_REF_NAME" "AuthMyMac-${VERSION}.zip" \
+            --verify-tag \
+            --title "AuthMyMac ${VERSION}" \
+            --generate-notes

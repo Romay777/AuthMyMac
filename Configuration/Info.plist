@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>CFBundleDisplayName</key>
+    <string>AuthMyMac</string>
+    <key>CFBundleIdentifier</key>
+    <string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+    <key>CFBundleName</key>
+    <string>$(PRODUCT_NAME)</string>
+    <key>CFBundleShortVersionString</key>
+    <string>$(MARKETING_VERSION)</string>
+    <key>CFBundleVersion</key>
+    <string>$(CURRENT_PROJECT_VERSION)</string>
+    <key>NSCameraUsageDescription</key>
+    <string>AuthMyMac uses the camera only when you choose to scan an authenticator QR code.</string>
+    <key>NSScreenCaptureUsageDescription</key>
+    <string>AuthMyMac captures only the screen region you select to find an authenticator QR code.</string>
+    <key>NSHumanReadableCopyright</key>
+    <string></string>
+</dict>
+</plist>

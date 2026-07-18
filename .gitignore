@@ -1,0 +1,11 @@
+.DS_Store
+.agents/
+.claude/
+PLAN.md
+.build/
+DerivedData/
+dist/
+*.xcuserstate
+xcuserdata/
+.swiftpm/xcode/package.xcworkspace/xcuserdata/
+tmp/
